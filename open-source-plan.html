@@ -44,7 +44,13 @@
   .hero {
     text-align: center;
     padding: 80px 24px 48px;
+    background: #ffffff;
     border-bottom: 1px solid var(--border);
+  }
+  .hero-logo {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 20px;
   }
   .hero h1 {
     font-size: 2.8rem;
@@ -52,9 +58,10 @@
     letter-spacing: -0.02em;
     margin-bottom: 12px;
   }
-  .hero h1 span { color: var(--orange); }
+  .hero h1 { color: #0d1117; }
+  .hero h1 span { color: #c0392b; }
   .hero p {
-    color: var(--text-muted);
+    color: #555;
     font-size: 1.15rem;
     max-width: 720px;
     margin: 0 auto;
@@ -84,42 +91,6 @@
     color: var(--text-muted);
     margin-bottom: 32px;
     max-width: 720px;
-  }
-
-  /* ─── Process Overview ─── */
-  .process-steps {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 0;
-    align-items: center;
-    margin-bottom: 32px;
-  }
-  .process-step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-  }
-  .process-step .step-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 12px;
-  }
-  .process-step:first-child .step-num { background: var(--blue-bg); color: var(--blue); }
-  .process-step:last-child .step-num { background: var(--green-bg); color: var(--green); }
-  .process-step h3 { font-size: 1rem; margin-bottom: 4px; }
-  .process-step p { color: var(--text-muted); font-size: 0.875rem; }
-  .process-arrow {
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    padding: 0 16px;
   }
 
   /* ─── Status Grid ─── */
@@ -390,6 +361,22 @@
   .stat-card:nth-child(2) .num { color: var(--blue); }
   .stat-card:nth-child(3) .num { color: var(--orange); }
   .stat-card:nth-child(4) .num { color: var(--text); }
+
+  .stats-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .stat-inline strong {
+    font-size: 0.95rem;
+  }
+  .stat-sep {
+    color: var(--border);
+  }
 </style>
 </head>
 <body>
@@ -397,40 +384,10 @@
 <!-- ════════════════ HERO ════════════════ -->
 <header class="hero">
   <div class="container">
+    <img src="assets/carbon-logo.png" alt="Carbon Engine" class="hero-logo">
     <h1><span>Carbon</span> Engine Open-Source Plan</h1>
-    <p>A two-stream strategy for moving all Carbon components from closed-source to fully open-sourced under the <strong>carbonengine</strong> GitHub organisation.</p>
   </div>
 </header>
-
-<!-- ════════════════ AT A GLANCE ════════════════ -->
-<section>
-  <div class="container">
-    <p class="section-label">At a glance</p>
-    <h2 class="section-title">Progress Overview</h2>
-    <p class="section-desc">Every component goes through two stages: converting to VCPKG for dependency management, then publishing to the open-source GitHub org.</p>
-
-    <div class="stats">
-      <div class="stat-card"><div class="num">4</div><div class="label">Fully Open-Sourced</div></div>
-      <div class="stat-card"><div class="num">13</div><div class="label">VCPKG'd — Ready to Publish</div></div>
-      <div class="stat-card"><div class="num">6</div><div class="label">Need VCPKG Conversion</div></div>
-      <div class="stat-card"><div class="num">23</div><div class="label">Total Components</div></div>
-    </div>
-
-    <div class="process-steps">
-      <div class="process-step">
-        <div class="step-num">1</div>
-        <h3>Convert to VCPKG</h3>
-        <p>Refactor build system to source all dependencies through VCPKG</p>
-      </div>
-      <div class="process-arrow">→</div>
-      <div class="process-step">
-        <div class="step-num">2</div>
-        <h3>Open-Source</h3>
-        <p>Move repository from <strong>ccpgames</strong> to <strong>carbonengine</strong> GitHub org</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ════════════════ COMPONENT STATUS ════════════════ -->
 <section>
@@ -438,6 +395,16 @@
     <p class="section-label">Component Status</p>
     <h2 class="section-title">All Carbon Components</h2>
     <p class="section-desc">Current status of every component across the two-step process.</p>
+
+    <div class="stats-inline">
+      <span class="stat-inline"><strong style="color:var(--green)">4</strong> Open-Sourced</span>
+      <span class="stat-sep">·</span>
+      <span class="stat-inline"><strong style="color:var(--blue)">13</strong> VCPKG'd</span>
+      <span class="stat-sep">·</span>
+      <span class="stat-inline"><strong style="color:var(--orange)">6</strong> Need Conversion</span>
+      <span class="stat-sep">·</span>
+      <span class="stat-inline"><strong>23</strong> Total</span>
+    </div>
 
     <div class="legend">
       <div class="legend-item"><div class="status-dot done"></div> Open-Sourced (Steps 1 &amp; 2)</div>
@@ -469,6 +436,57 @@
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Spacemouse</span><div class="badges"></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Videoplayer</span><div class="badges"></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">ImageIO</span><div class="badges"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DEPENDENCY GRAPH ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Dependencies</p>
+    <h2 class="section-title">Component Dependency Graph</h2>
+    <p class="section-desc">How each milestone group depends on the others. Components are listed within each group; arrows show which milestones must complete first.</p>
+
+    <div class="mermaid-wrapper">
+      <pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '13px' }}}%%
+graph LR
+  subgraph S1 ["Stream 1 — Open-Source Components"]
+    direction LR
+    done["✓ Open-Sourced\nCore · Scheduler\nIO · Math"]
+    m1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
+    m2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
+    m3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
+    done --> m1 --> m2 --> m3
+  end
+
+  subgraph S2 ["Stream 2 — VCPKG Conversion &amp; Open-Source"]
+    direction LR
+    s2m1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · Videoplayer"]
+    s2m2["M2: Trinity\nBuilds via VCPKG"]
+    s2m3["M3: Audio Deps\nin VCPKG"]
+    s2m4["M4: Audio\nBuilds via VCPKG"]
+    s2m5["M5: Trinity\nOpen-Sourced"]
+    s2m6["M6: Audio\nOpen-Sourced"]
+    s2m1 --> s2m2
+    s2m3 --> s2m4
+    s2m2 --> s2m5
+    s2m4 --> s2m6
+  end
+
+  m3 -.->|"Carbon deps\npublished"| s2m5
+  m3 -.->|"Carbon deps\npublished"| s2m6
+
+  classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
+  classDef s1Style fill:#172540,stroke:#58a6ff,color:#e6edf3
+  classDef s2Style fill:#2d1f3d,stroke:#bc8cff,color:#e6edf3
+  classDef finalStyle fill:#2d1f3d,stroke:#d29922,color:#d29922
+
+  class done doneStyle
+  class m1,m2,m3 s1Style
+  class s2m1,s2m2,s2m3,s2m4 s2Style
+  class s2m5,s2m6 finalStyle
+      </pre>
     </div>
   </div>
 </section>
@@ -639,153 +657,6 @@
       </div>
     </div>
 
-    <div class="callout">
-      <h4>Cross-Stream Dependencies</h4>
-      <p>Stream 2's open-sourcing milestones (M5–M6) are blocked on Stream 1 progress — their Carbon dependencies (e.g. Blue, Core, Scheduler) must be published to <strong>carbonengine</strong> first. The VCPKG conversion work (S2 M1–M4) can proceed fully in parallel with Stream 1. Parser, ImageIO, Spacemouse &amp; Videoplayer are all converted to VCPKG and open-sourced as part of M1.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════ DEPENDENCY GRAPH ════════════════ -->
-<section>
-  <div class="container">
-    <p class="section-label">Dependencies</p>
-    <h2 class="section-title">Component Dependency Graph</h2>
-    <p class="section-desc">Carbon-to-Carbon dependencies for all VCPKG-converted components. Arrows point from a component to what it depends on. Colours indicate open-source status.</p>
-
-    <div class="mermaid-wrapper">
-      <pre class="mermaid">
-%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '14px' }}}%%
-graph LR
-  subgraph done ["Open-Sourced ✓"]
-    direction TB
-    core["Core"]
-    scheduler["Scheduler"]
-    io["IO"]
-    math["Math"]
-  end
-
-  subgraph m1 ["Stream 1 — Milestone 1"]
-    direction TB
-    pdm["PDM"]
-    blueexp["Blueexposure"]
-    pdmpw["PDM Proto Wrapper"]
-  end
-
-  subgraph m2 ["Stream 1 — Milestone 2"]
-    direction TB
-    blue["Blue"]
-    exefile["Exefile"]
-    exeinterp["Exefile Interpreter"]
-  end
-
-  subgraph m3 ["Stream 1 — Milestone 3"]
-    direction TB
-    db["DB"]
-    destiny["Destiny"]
-    geo2["Geo2"]
-    local["Localization"]
-    pathfinder["Pathfinder"]
-    prometheus["Prometheus"]
-    grpc["GRPC"]
-  end
-
-  subgraph s2 ["Stream 2 — Needs VCPKG Conversion"]
-    direction TB
-    trinity["Trinity"]
-    audio["Audio"]
-    parser["Parser"]
-    imageio["ImageIO"]
-    spacemouse["Spacemouse"]
-    videoplayer["Videoplayer"]
-  end
-
-  scheduler --> core
-  io --> core
-  io --> scheduler
-  blueexp --> core
-  pdmpw --> pdm
-  blue --> blueexp
-  blue --> core
-  blue --> io
-  blue --> pdmpw
-  blue --> scheduler
-  exefile --> core
-  exeinterp --> blue
-  exeinterp --> exefile
-  db --> blue
-  destiny --> blue
-  destiny --> core
-  destiny --> math
-  geo2 --> core
-  geo2 --> math
-  local --> blue
-  local --> blueexp
-  pathfinder --> blueexp
-  pathfinder --> core
-  grpc --> prometheus
-  trinity -.-> blue
-  trinity -.-> parser
-  trinity -.-> imageio
-  audio -.-> blue
-
-  classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
-  classDef m1Style fill:#172540,stroke:#58a6ff,color:#58a6ff
-  classDef m2Style fill:#172540,stroke:#58a6ff,color:#58a6ff
-  classDef m3Style fill:#172540,stroke:#58a6ff,color:#58a6ff
-  classDef s2Style fill:#2d1f3d,stroke:#bc8cff,color:#bc8cff
-
-  class core,scheduler,io,math doneStyle
-  class pdm,blueexp,pdmpw m1Style
-  class blue,exefile,exeinterp m2Style
-  class db,destiny,geo2,local,pathfinder,prometheus,grpc m3Style
-  class trinity,audio,parser,imageio,spacemouse,videoplayer s2Style
-      </pre>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════ TIMELINE ════════════════ -->
-<section>
-  <div class="container">
-    <p class="section-label">Putting It Together</p>
-    <h2 class="section-title">Milestone Sequence &amp; Cross-Stream Dependencies</h2>
-    <p class="section-desc">The VCPKG conversion work (Stream 2, M1–M4) proceeds independently. Open-sourcing Trinity &amp; Audio (Stream 2, M5–M6) requires their Carbon deps to be published first via Stream 1.</p>
-
-    <div class="mermaid-wrapper">
-      <pre class="mermaid">
-%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '13px' }}}%%
-graph LR
-  subgraph S1 ["Stream 1 — Open-Source"]
-    direction LR
-    S1_done["✓ Foundation\nCore · Scheduler\nIO · Math"] --> S1_M1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
-    S1_M1 --> S1_M2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
-    S1_M2 --> S1_M3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
-  end
-
-  subgraph S2 ["Stream 2 — VCPKG Conversion"]
-    direction LR
-    S2_M1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · Videoplayer\n+ Trinity third-party deps"] --> S2_M2["M2: Trinity\nBuilds via VCPKG"]
-    S2_M3["M3: Audio Deps\nin VCPKG"] --> S2_M4["M4: Audio\nBuilds via VCPKG"]
-  end
-
-  S2_M2 --> S2_M5["M5: Trinity\nOpen-Sourced"]
-  S2_M4 --> S2_M6["M6: Audio\nOpen-Sourced"]
-
-  S1_M3 -.->|"Carbon deps\npublished"| S2_M5
-  S1_M3 -.->|"Carbon deps\npublished"| S2_M6
-
-  classDef doneNode fill:#1a3a2a,stroke:#3fb950,color:#3fb950
-  classDef s1Node fill:#172540,stroke:#58a6ff,color:#e6edf3
-  classDef s2Node fill:#2d1f3d,stroke:#bc8cff,color:#e6edf3
-  classDef finalNode fill:#2d1f3d,stroke:#d29922,color:#d29922
-
-  class S1_done doneNode
-  class S1_M1,S1_M2,S1_M3 s1Node
-  class S2_M1,S2_M2,S2_M3,S2_M4 s2Node
-  class S2_M5,S2_M6 finalNode
-      </pre>
-    </div>
   </div>
 </section>
 
