@@ -653,21 +653,20 @@
       </div>
 
       <div class="ms-card">
-        <div class="ms-card-label">Milestone 5</div>
+        <div class="ms-card-label">Milestone 3</div>
         <div class="ms-card-title">Trinity Open-Sourced</div>
         <ul class="comp-list">
           <li><span class="comp-dot todo"></span>Trinity → carbonengine</li>
           <li><span class="comp-dot ready"></span>controller</li>
           <li><span class="comp-dot todo"></span>Videoplayer</li>
         </ul>
-        <div class="ms-card-note">Blocked on S2 M2 + S1 completing</div>
       </div>
     </div>
 
     <h3 class="workflow-heading">Audio Workflow</h3>
     <div class="milestone-grid">
       <div class="ms-card">
-        <div class="ms-card-label">Milestone 3</div>
+        <div class="ms-card-label">Milestone 1</div>
         <div class="ms-card-title">Audio Deps in VCPKG</div>
         <ul class="comp-list">
           <li><span class="comp-dot todo"></span><strong style="color:var(--orange); text-decoration:underline;">TrinityAudioAPI</strong></li>
@@ -678,7 +677,7 @@
       </div>
 
       <div class="ms-card">
-        <div class="ms-card-label">Milestone 4</div>
+        <div class="ms-card-label">Milestone 2</div>
         <div class="ms-card-title">Audio Builds via VCPKG</div>
         <ul class="comp-list">
           <li><span class="comp-dot todo"></span>Audio</li>
@@ -686,12 +685,11 @@
       </div>
 
       <div class="ms-card">
-        <div class="ms-card-label">Milestone 6</div>
+        <div class="ms-card-label">Milestone 3</div>
         <div class="ms-card-title">Audio Open-Sourced</div>
         <ul class="comp-list">
           <li><span class="comp-dot todo"></span>Audio → carbonengine</li>
         </ul>
-        <div class="ms-card-note">Blocked on S2 M4 + S1 completing</div>
       </div>
     </div>
   </div>
@@ -709,20 +707,20 @@ graph LR
   subgraph S1 ["Stream 1 — Open-Source Components"]
     direction LR
     done["✓ Open-Sourced\nCore · Scheduler\nIO · Math"]
-    m1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
-    m2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
-    m3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
+    m1["Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
+    m2["Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
+    m3["All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
     done --> m1 --> m2 --> m3
   end
 
   subgraph S2 ["Stream 2 — VCPKG Conversion &amp; Open-Source"]
     direction LR
-    s2m1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · IME · TrinityAudioAPI · d3dInfo · mesh · ImageTools"]
-    s2m2["M2: Trinity\nBuilds via VCPKG"]
-    s2m3["M3: Audio Deps\nin VCPKG"]
-    s2m4["M4: Audio\nBuilds via VCPKG"]
-    s2m5["M5: Trinity\nOpen-Sourced · Videoplayer · controller"]
-    s2m6["M6: Audio\nOpen-Sourced"]
+    s2m1["VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · IME · TrinityAudioAPI · d3dInfo · mesh · ImageTools"]
+    s2m2["Trinity\nBuilds via VCPKG"]
+    s2m3["Audio Deps\nin VCPKG"]
+    s2m4["Audio\nBuilds via VCPKG"]
+    s2m5["Trinity\nOpen-Sourced · Videoplayer · controller"]
+    s2m6["Audio\nOpen-Sourced"]
     s2m1 --> s2m2
     s2m1 -.->|"TrinityAudioAPI"| s2m3
     s2m3 --> s2m4
