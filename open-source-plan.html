@@ -609,12 +609,12 @@
           <li><span class="comp-dot todo"></span>ImageIO</li>
           <li><span class="comp-dot todo"></span>Spacemouse</li>
           <li><span class="comp-dot todo"></span>IME</li>
-          <li><span class="comp-dot todo"></span>TrinityAudioAPI</li>
+          <li><span class="comp-dot todo"></span><strong style="color:var(--orange); text-decoration:underline;">TrinityAudioAPI</strong></li>
           <li><span class="comp-dot todo"></span>d3dInfo</li>
           <li><span class="comp-dot ready"></span>mesh</li>
           <li><span class="comp-dot todo"></span>ImageTools</li>
         </ul>
-        <div class="ms-card-note">Parser &amp; ImageIO are Trinity deps</div>
+        <div class="ms-card-note" style="color:var(--orange); font-style:normal;">TrinityAudioAPI is a shared dependency of both Trinity &amp; Audio</div>
       </div>
 
       <div class="ms-card">
@@ -643,10 +643,11 @@
         <div class="ms-card-label">Milestone 3</div>
         <div class="ms-card-title">Audio Deps in VCPKG</div>
         <ul class="comp-list">
-          <li><span class="comp-dot todo"></span>Audit dependencies</li>
+          <li><span class="comp-dot todo"></span><strong style="color:var(--orange); text-decoration:underline;">TrinityAudioAPI</strong></li>
+          <li><span class="comp-dot todo"></span>Audit remaining dependencies</li>
           <li><span class="comp-dot todo"></span>Add custom ports</li>
         </ul>
-        <div class="ms-card-note">Full dependency tree TBD</div>
+        <div class="ms-card-note" style="color:var(--orange); font-style:normal;">TrinityAudioAPI is shared with Trinity (S2 M1) — remaining deps TBD</div>
       </div>
 
       <div class="ms-card">
@@ -696,6 +697,7 @@ graph LR
     s2m5["M5: Trinity\nOpen-Sourced · Videoplayer · controller"]
     s2m6["M6: Audio\nOpen-Sourced"]
     s2m1 --> s2m2
+    s2m1 -.->|"TrinityAudioAPI"| s2m3
     s2m3 --> s2m4
     s2m2 --> s2m5
     s2m4 --> s2m6
