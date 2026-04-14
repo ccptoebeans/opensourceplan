@@ -377,6 +377,84 @@
   .stat-sep {
     color: var(--border);
   }
+
+  /* ─── Milestone Breakdown ─── */
+  .stream-section {
+    border-top: 3px solid var(--border);
+  }
+  .stream-section.s1 { border-top-color: var(--blue); }
+  .stream-section.s2 { border-top-color: var(--purple); }
+
+  .stream-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  .stream-badge.s1 { background: var(--blue-bg); color: var(--blue); }
+  .stream-badge.s2 { background: var(--purple-bg); color: var(--purple); }
+
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .ms-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+  }
+  .ms-card.done { border-color: rgba(63,185,80,0.3); }
+  .ms-card-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .ms-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+  .ms-card .comp-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ms-card .comp-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+  }
+  .comp-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .comp-dot.done { background: var(--green); }
+  .comp-dot.ready { background: var(--blue); }
+  .comp-dot.todo { background: var(--orange); }
+  .ms-card .comp-list li.done-item { color: var(--text-muted); text-decoration: line-through; }
+  .ms-card-note {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -487,172 +565,127 @@ graph LR
   </div>
 </section>
 
-<!-- ════════════════ TWO STREAMS ════════════════ -->
-<section>
+<!-- ════════════════ STREAM 1 ════════════════ -->
+<section class="stream-section s1">
   <div class="container">
-    <p class="section-label">Execution Plan</p>
-    <h2 class="section-title">Two Parallel Workstreams</h2>
-    <p class="section-desc">Stream 1 focuses on open-sourcing the 13 components already using VCPKG, ordered by dependency. Stream 2 tackles the VCPKG conversion of the 6 remaining components — Trinity, Audio, Parser, ImageIO, Spacemouse, and Videoplayer.</p>
+    <span class="stream-badge s1">Stream 1</span>
+    <h2 class="section-title">Open-Source VCPKG'd Components</h2>
 
-    <div class="streams">
-      <!-- ── Stream 1 ── -->
-      <div class="stream">
-        <div class="stream-header">
-          <span class="stream-tag">Stream 1</span>
-          <h3>Open-Source VCPKG'd Components</h3>
-          <p>Move repositories to the carbonengine GitHub org</p>
-        </div>
-
-        <div class="milestone done">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Complete</div>
-            <div class="milestone-title">Foundation Layer</div>
-            <div class="milestone-components">
-              <span class="chip done">Core</span>
-              <span class="chip done">Scheduler</span>
-              <span class="chip done">IO</span>
-              <span class="chip done">Math</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 1</div>
-            <div class="milestone-title">All of Blue's Dependencies Are Open-Source</div>
-            <div class="milestone-components">
-              <span class="chip">PDM</span>
-              <span class="chip">Blueexposure</span>
-              <span class="chip">PDM Proto Wrapper</span>
-            </div>
-            <div class="milestone-note">PDM Proto Wrapper depends on PDM — publish PDM first</div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 2</div>
-            <div class="milestone-title">Blue Is Open-Source</div>
-            <div class="milestone-components">
-              <span class="chip">Blue</span>
-              <span class="chip">Exefile</span>
-              <span class="chip">Exefile Interpreter</span>
-            </div>
-            <div class="milestone-note">Unlocks a runnable game-loop for open-source developers via Exefile</div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 3</div>
-            <div class="milestone-title">All Team-Core Components Are Open-Source</div>
-            <div class="milestone-components">
-              <span class="chip">DB</span>
-              <span class="chip">Destiny</span>
-              <span class="chip">Geo2</span>
-              <span class="chip">Localization</span>
-              <span class="chip">Pathfinder</span>
-              <span class="chip">Prometheus</span>
-              <span class="chip">GRPC</span>
-            </div>
-            <div class="milestone-note">All dependencies satisfied by M1 &amp; M2 — these can be published in parallel</div>
-          </div>
-        </div>
+    <div class="milestone-grid">
+      <div class="ms-card done">
+        <div class="ms-card-label">Complete</div>
+        <div class="ms-card-title">Foundation Layer</div>
+        <ul class="comp-list">
+          <li class="done-item"><span class="comp-dot done"></span>Core</li>
+          <li class="done-item"><span class="comp-dot done"></span>Scheduler</li>
+          <li class="done-item"><span class="comp-dot done"></span>IO</li>
+          <li class="done-item"><span class="comp-dot done"></span>Math</li>
+        </ul>
       </div>
 
-      <!-- ── Stream 2 ── -->
-      <div class="stream">
-        <div class="stream-header">
-          <span class="stream-tag">Stream 2</span>
-          <h3>Convert Remaining Components to VCPKG</h3>
-          <p>Refactor build systems for Trinity, Audio, Parser, ImageIO, Spacemouse &amp; Videoplayer to source all dependencies through VCPKG</p>
-        </div>
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 1</div>
+        <div class="ms-card-title">Blue's Dependencies</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot ready"></span>PDM</li>
+          <li><span class="comp-dot ready"></span>Blueexposure</li>
+          <li><span class="comp-dot ready"></span>PDM Proto Wrapper</li>
+        </ul>
+        <div class="ms-card-note">PDM Proto Wrapper depends on PDM — publish PDM first</div>
+      </div>
 
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 1</div>
-            <div class="milestone-title">All Trinity's Dependencies Available via VCPKG</div>
-            <div class="milestone-components">
-              <span class="chip">Parser → VCPKG</span>
-              <span class="chip">ImageIO → VCPKG</span>
-              <span class="chip">Spacemouse → VCPKG</span>
-              <span class="chip">Videoplayer → VCPKG</span>
-              <span class="chip">Audit third-party deps</span>
-              <span class="chip">Add custom ports</span>
-            </div>
-            <div class="milestone-note">Parser, ImageIO, Spacemouse &amp; Videoplayer all need VCPKG conversion and open-sourcing. Parser &amp; ImageIO are Trinity deps. Third-party and internal deps (ShaderCompiler, TrinityAL, etc.) also need custom ports or refactoring.</div>
-          </div>
-        </div>
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 2</div>
+        <div class="ms-card-title">Blue + Game Loop</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot ready"></span>Blue</li>
+          <li><span class="comp-dot ready"></span>Exefile</li>
+          <li><span class="comp-dot ready"></span>Exefile Interpreter</li>
+        </ul>
+        <div class="ms-card-note">Runnable game-loop for open-source developers</div>
+      </div>
 
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 2</div>
-            <div class="milestone-title">Trinity Builds Through VCPKG</div>
-            <div class="milestone-components">
-              <span class="chip">Refactor CMake</span>
-              <span class="chip">CI/CD validation</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 3</div>
-            <div class="milestone-title">All Audio's Dependencies Available via VCPKG</div>
-            <div class="milestone-components">
-              <span class="chip">Audit dependencies</span>
-              <span class="chip">Add custom ports</span>
-            </div>
-            <div class="milestone-note">Audio's full dependency tree is TBD — audit required</div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 4</div>
-            <div class="milestone-title">Audio Builds Through VCPKG</div>
-            <div class="milestone-components">
-              <span class="chip">Refactor CMake</span>
-              <span class="chip">CI/CD validation</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 5</div>
-            <div class="milestone-title">Trinity Is Open-Source</div>
-            <div class="milestone-components">
-              <span class="chip">Publish to carbonengine</span>
-            </div>
-            <div class="milestone-note">Blocked on: Stream 2 M2 + Stream 1 open-sourcing Trinity's Carbon deps (incl. Parser &amp; ImageIO)</div>
-          </div>
-        </div>
-
-        <div class="milestone">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-label">Milestone 6</div>
-            <div class="milestone-title">Audio Is Open-Source</div>
-            <div class="milestone-components">
-              <span class="chip">Publish to carbonengine</span>
-            </div>
-            <div class="milestone-note">Blocked on: Stream 2 M4 + Stream 1 open-sourcing Audio's Carbon deps</div>
-          </div>
-        </div>
-
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 3</div>
+        <div class="ms-card-title">All Remaining</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot ready"></span>DB</li>
+          <li><span class="comp-dot ready"></span>Destiny</li>
+          <li><span class="comp-dot ready"></span>Geo2</li>
+          <li><span class="comp-dot ready"></span>Localization</li>
+          <li><span class="comp-dot ready"></span>Pathfinder</li>
+          <li><span class="comp-dot ready"></span>Prometheus</li>
+          <li><span class="comp-dot ready"></span>GRPC</li>
+        </ul>
+        <div class="ms-card-note">Can be opensourced in parallel</div>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- ════════════════ STREAM 2 ════════════════ -->
+<section class="stream-section s2">
+  <div class="container">
+    <span class="stream-badge s2">Stream 2</span>
+    <h2 class="section-title">Convert &amp; Open-Source Remaining Components</h2>
+
+    <div class="milestone-grid">
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 1</div>
+        <div class="ms-card-title">VCPKG + Open-Source</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Parser</li>
+          <li><span class="comp-dot todo"></span>ImageIO</li>
+          <li><span class="comp-dot todo"></span>Spacemouse</li>
+          <li><span class="comp-dot todo"></span>Videoplayer</li>
+        </ul>
+        <div class="ms-card-note">Parser &amp; ImageIO are Trinity deps</div>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 2</div>
+        <div class="ms-card-title">Trinity Builds via VCPKG</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Trinity</li>
+        </ul>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 3</div>
+        <div class="ms-card-title">Audio Deps in VCPKG</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Audit dependencies</li>
+          <li><span class="comp-dot todo"></span>Add custom ports</li>
+        </ul>
+        <div class="ms-card-note">Full dependency tree TBD</div>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 4</div>
+        <div class="ms-card-title">Audio Builds via VCPKG</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Audio</li>
+        </ul>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 5</div>
+        <div class="ms-card-title">Trinity Open-Sourced</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Trinity → carbonengine</li>
+        </ul>
+        <div class="ms-card-note">Blocked on S2 M2 + S1 completing</div>
+      </div>
+
+      <div class="ms-card">
+        <div class="ms-card-label">Milestone 6</div>
+        <div class="ms-card-title">Audio Open-Sourced</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Audio → carbonengine</li>
+        </ul>
+        <div class="ms-card-note">Blocked on S2 M4 + S1 completing</div>
+      </div>
+    </div>
   </div>
 </section>
 
