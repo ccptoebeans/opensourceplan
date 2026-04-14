@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carbon Engine — Open-Source Plan</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --green: #3fb950;
+    --green-bg: rgba(63,185,80,0.12);
+    --blue: #58a6ff;
+    --blue-bg: rgba(88,166,255,0.12);
+    --orange: #d29922;
+    --orange-bg: rgba(210,153,34,0.12);
+    --red: #f85149;
+    --purple: #bc8cff;
+    --purple-bg: rgba(188,140,255,0.12);
+    --cyan: #39d2c0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--orange); }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ─── Section ─── */
+  section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 720px;
+  }
+
+  /* ─── Process Overview ─── */
+  .process-steps {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .process-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .process-step .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  .process-step:first-child .step-num { background: var(--blue-bg); color: var(--blue); }
+  .process-step:last-child .step-num { background: var(--green-bg); color: var(--green); }
+  .process-step h3 { font-size: 1rem; margin-bottom: 4px; }
+  .process-step p { color: var(--text-muted); font-size: 0.875rem; }
+  .process-arrow {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    padding: 0 16px;
+  }
+
+  /* ─── Status Grid ─── */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .status-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+  .status-card:hover { border-color: var(--text-muted); }
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-dot.done { background: var(--green); box-shadow: 0 0 8px rgba(63,185,80,0.4); }
+  .status-dot.vcpkg { background: var(--blue); box-shadow: 0 0 8px rgba(88,166,255,0.4); }
+  .status-dot.todo { background: var(--orange); box-shadow: 0 0 8px rgba(210,153,34,0.4); }
+  .status-card .name { font-weight: 500; font-size: 0.95rem; }
+  .status-card .badges { margin-left: auto; display: flex; gap: 4px; }
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge.g { background: var(--green-bg); color: var(--green); }
+  .badge.b { background: var(--blue-bg); color: var(--blue); }
+
+  .legend {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── Streams ─── */
+  .streams {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 800px) {
+    .streams { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+    .process-arrow { transform: rotate(90deg); text-align: center; }
+  }
+
+  .stream {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .stream-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stream-header .stream-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .stream:nth-child(1) .stream-tag { background: var(--green-bg); color: var(--green); }
+  .stream:nth-child(2) .stream-tag { background: var(--purple-bg); color: var(--purple); }
+  .stream-header h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 4px; }
+  .stream-header p { color: var(--text-muted); font-size: 0.875rem; }
+
+  .milestone {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .milestone:last-child { border-bottom: none; }
+  .milestone::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .milestone:first-of-type::before { top: 28px; }
+  .milestone:last-child::before { bottom: calc(100% - 28px); }
+  .milestone-dot {
+    position: absolute;
+    left: 18px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    z-index: 1;
+  }
+  .milestone.done .milestone-dot { background: var(--green); border-color: var(--green); }
+  .milestone-content {
+    margin-left: 24px;
+  }
+  .milestone-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .milestone-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+  .milestone-components {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .chip.done {
+    background: var(--green-bg);
+    border-color: rgba(63,185,80,0.25);
+    color: var(--green);
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+  .milestone-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* ─── Cross-stream callout ─── */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 32px;
+  }
+  .callout h4 { margin-bottom: 6px; font-size: 0.95rem; }
+  .callout p { color: var(--text-muted); font-size: 0.875rem; }
+
+  /* ─── Dependency Graph ─── */
+  .mermaid-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  .mermaid {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ─── Trinity Image ─── */
+  .trinity-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 800px) {
+    .trinity-section { grid-template-columns: 1fr; }
+  }
+  .trinity-text h4 { font-size: 1rem; margin-bottom: 8px; }
+  .trinity-text p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .trinity-text ul {
+    list-style: none;
+    padding: 0;
+  }
+  .trinity-text ul li {
+    padding: 6px 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: start;
+    gap: 8px;
+  }
+  .trinity-text ul li::before {
+    content: '→';
+    color: var(--purple);
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .trinity-image-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .trinity-image-wrapper img {
+    width: 100%;
+    display: block;
+  }
+  .trinity-image-caption {
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  /* ─── Summary stats ─── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .stat-card:nth-child(1) .num { color: var(--green); }
+  .stat-card:nth-child(2) .num { color: var(--blue); }
+  .stat-card:nth-child(3) .num { color: var(--orange); }
+  .stat-card:nth-child(4) .num { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero">
+  <div class="container">
+    <h1><span>Carbon</span> Engine Open-Source Plan</h1>
+    <p>A two-stream strategy for moving all Carbon components from closed-source to fully open-sourced under the <strong>carbonengine</strong> GitHub organisation.</p>
+  </div>
+</header>
+
+<!-- ════════════════ AT A GLANCE ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">At a glance</p>
+    <h2 class="section-title">Progress Overview</h2>
+    <p class="section-desc">Every component goes through two stages: converting to VCPKG for dependency management, then publishing to the open-source GitHub org.</p>
+
+    <div class="stats">
+      <div class="stat-card"><div class="num">4</div><div class="label">Fully Open-Sourced</div></div>
+      <div class="stat-card"><div class="num">13</div><div class="label">VCPKG'd — Ready to Publish</div></div>
+      <div class="stat-card"><div class="num">2</div><div class="label">Need VCPKG Conversion</div></div>
+      <div class="stat-card"><div class="num">19</div><div class="label">Total Components</div></div>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <h3>Convert to VCPKG</h3>
+        <p>Refactor build system to source all dependencies through VCPKG</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <h3>Open-Source</h3>
+        <p>Move repository from <strong>ccpgames</strong> to <strong>carbonengine</strong> GitHub org</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COMPONENT STATUS ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Component Status</p>
+    <h2 class="section-title">All Carbon Components</h2>
+    <p class="section-desc">Current status of every component across the two-step process.</p>
+
+    <div class="legend">
+      <div class="legend-item"><div class="status-dot done"></div> Open-Sourced (Steps 1 &amp; 2)</div>
+      <div class="legend-item"><div class="status-dot vcpkg"></div> VCPKG'd (Step 1 only)</div>
+      <div class="legend-item"><div class="status-dot todo"></div> Not Started</div>
+    </div>
+
+    <div class="status-grid">
+      <div class="status-card"><div class="status-dot done"></div><span class="name">Core</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
+      <div class="status-card"><div class="status-dot done"></div><span class="name">Scheduler</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
+      <div class="status-card"><div class="status-dot done"></div><span class="name">IO</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
+      <div class="status-card"><div class="status-dot done"></div><span class="name">Math</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Blueexposure</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Blue</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">PDM Proto Wrapper</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">DB</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Destiny</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Exefile</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Exefile Interpreter</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Geo2</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Localization</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Pathfinder</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">PDM</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Prometheus</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">GRPC</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">Trinity</span><div class="badges"></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">Audio</span><div class="badges"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TWO STREAMS ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Execution Plan</p>
+    <h2 class="section-title">Two Parallel Workstreams</h2>
+    <p class="section-desc">Stream 1 focuses on open-sourcing the 13 components already using VCPKG, ordered by dependency. Stream 2 tackles the VCPKG conversion of Trinity and Audio — the two remaining holdouts.</p>
+
+    <div class="streams">
+      <!-- ── Stream 1 ── -->
+      <div class="stream">
+        <div class="stream-header">
+          <span class="stream-tag">Stream 1</span>
+          <h3>Open-Source VCPKG'd Components</h3>
+          <p>Move repositories to the carbonengine GitHub org</p>
+        </div>
+
+        <div class="milestone done">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Complete</div>
+            <div class="milestone-title">Foundation Layer</div>
+            <div class="milestone-components">
+              <span class="chip done">Core</span>
+              <span class="chip done">Scheduler</span>
+              <span class="chip done">IO</span>
+              <span class="chip done">Math</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 1</div>
+            <div class="milestone-title">All of Blue's Dependencies Are Open-Source</div>
+            <div class="milestone-components">
+              <span class="chip">PDM</span>
+              <span class="chip">Blueexposure</span>
+              <span class="chip">PDM Proto Wrapper</span>
+            </div>
+            <div class="milestone-note">PDM Proto Wrapper depends on PDM — publish PDM first</div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 2</div>
+            <div class="milestone-title">Blue Is Open-Source</div>
+            <div class="milestone-components">
+              <span class="chip">Blue</span>
+              <span class="chip">Exefile</span>
+              <span class="chip">Exefile Interpreter</span>
+            </div>
+            <div class="milestone-note">Unlocks a runnable game-loop for open-source developers via Exefile</div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 3</div>
+            <div class="milestone-title">All Team-Core Components Are Open-Source</div>
+            <div class="milestone-components">
+              <span class="chip">DB</span>
+              <span class="chip">Destiny</span>
+              <span class="chip">Geo2</span>
+              <span class="chip">Localization</span>
+              <span class="chip">Pathfinder</span>
+              <span class="chip">Prometheus</span>
+              <span class="chip">GRPC</span>
+            </div>
+            <div class="milestone-note">All dependencies satisfied by M1 &amp; M2 — these can be published in parallel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Stream 2 ── -->
+      <div class="stream">
+        <div class="stream-header">
+          <span class="stream-tag">Stream 2</span>
+          <h3>Convert Trinity &amp; Audio to VCPKG</h3>
+          <p>Refactor build systems to source all dependencies through VCPKG</p>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 1</div>
+            <div class="milestone-title">All Trinity's Dependencies Available via VCPKG</div>
+            <div class="milestone-components">
+              <span class="chip">Audit dependencies</span>
+              <span class="chip">Add custom ports</span>
+            </div>
+            <div class="milestone-note">Many Carbon deps already have VCPKG ports — third-party and internal deps (ShaderCompiler, TrinityAL, etc.) need custom ports or refactoring</div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 2</div>
+            <div class="milestone-title">Trinity Builds Through VCPKG</div>
+            <div class="milestone-components">
+              <span class="chip">Refactor CMake</span>
+              <span class="chip">CI/CD validation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 3</div>
+            <div class="milestone-title">All Audio's Dependencies Available via VCPKG</div>
+            <div class="milestone-components">
+              <span class="chip">Audit dependencies</span>
+              <span class="chip">Add custom ports</span>
+            </div>
+            <div class="milestone-note">Audio's full dependency tree is TBD — audit required</div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 4</div>
+            <div class="milestone-title">Audio Builds Through VCPKG</div>
+            <div class="milestone-components">
+              <span class="chip">Refactor CMake</span>
+              <span class="chip">CI/CD validation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 5</div>
+            <div class="milestone-title">Trinity Is Open-Source</div>
+            <div class="milestone-components">
+              <span class="chip">Publish to carbonengine</span>
+            </div>
+            <div class="milestone-note">Blocked on: Stream 2 M2 + Stream 1 open-sourcing Trinity's Carbon deps</div>
+          </div>
+        </div>
+
+        <div class="milestone">
+          <div class="milestone-dot"></div>
+          <div class="milestone-content">
+            <div class="milestone-label">Milestone 6</div>
+            <div class="milestone-title">Audio Is Open-Source</div>
+            <div class="milestone-components">
+              <span class="chip">Publish to carbonengine</span>
+            </div>
+            <div class="milestone-note">Blocked on: Stream 2 M4 + Stream 1 open-sourcing Audio's Carbon deps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>Cross-Stream Dependencies</h4>
+      <p>Stream 2's final milestones (open-sourcing Trinity &amp; Audio) are blocked on Stream 1 progress — their Carbon dependencies (e.g. Blue, Core, Scheduler) must be published to <strong>carbonengine</strong> first. The VCPKG conversion work (S2 M1–M4) can proceed fully in parallel with Stream 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DEPENDENCY GRAPH ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Dependencies</p>
+    <h2 class="section-title">Component Dependency Graph</h2>
+    <p class="section-desc">Carbon-to-Carbon dependencies for all VCPKG-converted components. Arrows point from a component to what it depends on. Colours indicate open-source status.</p>
+
+    <div class="mermaid-wrapper">
+      <pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '14px' }}}%%
+graph LR
+  subgraph done ["Open-Sourced ✓"]
+    direction TB
+    core["Core"]
+    scheduler["Scheduler"]
+    io["IO"]
+    math["Math"]
+  end
+
+  subgraph m1 ["Stream 1 — Milestone 1"]
+    direction TB
+    pdm["PDM"]
+    blueexp["Blueexposure"]
+    pdmpw["PDM Proto Wrapper"]
+  end
+
+  subgraph m2 ["Stream 1 — Milestone 2"]
+    direction TB
+    blue["Blue"]
+    exefile["Exefile"]
+    exeinterp["Exefile Interpreter"]
+  end
+
+  subgraph m3 ["Stream 1 — Milestone 3"]
+    direction TB
+    db["DB"]
+    destiny["Destiny"]
+    geo2["Geo2"]
+    local["Localization"]
+    pathfinder["Pathfinder"]
+    prometheus["Prometheus"]
+    grpc["GRPC"]
+  end
+
+  subgraph s2 ["Stream 2 — VCPKG Conversion"]
+    direction TB
+    trinity["Trinity"]
+    audio["Audio"]
+  end
+
+  scheduler --> core
+  io --> core
+  io --> scheduler
+  blueexp --> core
+  pdmpw --> pdm
+  blue --> blueexp
+  blue --> core
+  blue --> io
+  blue --> pdmpw
+  blue --> scheduler
+  exefile --> core
+  exeinterp --> blue
+  exeinterp --> exefile
+  db --> blue
+  destiny --> blue
+  destiny --> core
+  destiny --> math
+  geo2 --> core
+  geo2 --> math
+  local --> blue
+  local --> blueexp
+  pathfinder --> blueexp
+  pathfinder --> core
+  grpc --> prometheus
+  trinity -.-> blue
+  audio -.-> blue
+
+  classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
+  classDef m1Style fill:#172540,stroke:#58a6ff,color:#58a6ff
+  classDef m2Style fill:#172540,stroke:#58a6ff,color:#58a6ff
+  classDef m3Style fill:#172540,stroke:#58a6ff,color:#58a6ff
+  classDef s2Style fill:#2d1f3d,stroke:#bc8cff,color:#bc8cff
+
+  class core,scheduler,io,math doneStyle
+  class pdm,blueexp,pdmpw m1Style
+  class blue,exefile,exeinterp m2Style
+  class db,destiny,geo2,local,pathfinder,prometheus,grpc m3Style
+  class trinity,audio s2Style
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TRINITY COMPLEXITY ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Stream 2 Deep Dive</p>
+    <h2 class="section-title">The Trinity Challenge</h2>
+    <p class="section-desc">Trinity is the rendering engine at the heart of Carbon. Converting it to VCPKG is the most complex task in the plan — here's why.</p>
+
+    <div class="trinity-section">
+      <div class="trinity-text">
+        <h4>Why Trinity is the hardest component to convert</h4>
+        <p>Trinity has a large and complex dependency tree spanning Carbon components, third-party libraries, platform SDKs, and internal sub-components.</p>
+        <ul>
+          <li><strong>Carbon dependencies</strong> — Blue, CcpMath, CcpParser, and others that already have VCPKG ports</li>
+          <li><strong>Third-party libraries</strong> — Freetype, VMA, libSquish, PNG, re2c, Lemon, GTest, and more</li>
+          <li><strong>Platform SDKs</strong> — Metal, MetalFX, Direct3D 11/12, DXGI, IOKit, Cocoa, CoreFoundation</li>
+          <li><strong>Vendor integrations</strong> — NVIDIA (Aftermath, DLSS, NIS, Reflex, Streamline), AMD (FidelityFX, FSR, CAS, CACAO), Intel (XeSS, TBB)</li>
+          <li><strong>Internal sub-components</strong> — ShaderCompiler, TrinityAL (dx11/dx12/metal/stub), CarbonTrinityAudioAPI — all live within the Trinity repo</li>
+          <li><strong>Platform-specific backends</strong> — dx11, dx12, metal, and stub variants that each pull different dependency subsets</li>
+        </ul>
+        <p style="margin-top: 16px;">Each non-VCPKG dependency needs to be audited: some exist in public VCPKG, some need custom ports in the Carbon registry, and some (platform SDKs) are system-provided.</p>
+      </div>
+      <div class="trinity-image-wrapper">
+        <img src="assets/trinity-dependencies.png" alt="Trinity dependency graph showing the complex web of internal and external dependencies">
+        <div class="trinity-image-caption">Trinity's full dependency tree — Carbon components, third-party libraries, platform APIs, and vendor SDKs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TIMELINE ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Putting It Together</p>
+    <h2 class="section-title">Milestone Sequence &amp; Cross-Stream Dependencies</h2>
+    <p class="section-desc">The VCPKG conversion work (Stream 2, M1–M4) proceeds independently. Open-sourcing Trinity &amp; Audio (Stream 2, M5–M6) requires their Carbon deps to be published first via Stream 1.</p>
+
+    <div class="mermaid-wrapper">
+      <pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '13px' }}}%%
+graph LR
+  subgraph S1 ["Stream 1 — Open-Source"]
+    direction LR
+    S1_done["✓ Foundation\nCore · Scheduler\nIO · Math"] --> S1_M1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper · Exefile\nExefile Interpreter"]
+    S1_M1 --> S1_M2["M2: Blue + Game Loop\nBlue"]
+    S1_M2 --> S1_M3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
+  end
+
+  subgraph S2 ["Stream 2 — VCPKG Conversion"]
+    direction LR
+    S2_M1["M1: Trinity Deps\nin VCPKG"] --> S2_M2["M2: Trinity\nBuilds via VCPKG"]
+    S2_M3["M3: Audio Deps\nin VCPKG"] --> S2_M4["M4: Audio\nBuilds via VCPKG"]
+  end
+
+  S2_M2 --> S2_M5["M5: Trinity\nOpen-Sourced"]
+  S2_M4 --> S2_M6["M6: Audio\nOpen-Sourced"]
+
+  S1_M3 -.->|"Carbon deps\npublished"| S2_M5
+  S1_M3 -.->|"Carbon deps\npublished"| S2_M6
+
+  classDef doneNode fill:#1a3a2a,stroke:#3fb950,color:#3fb950
+  classDef s1Node fill:#172540,stroke:#58a6ff,color:#e6edf3
+  classDef s2Node fill:#2d1f3d,stroke:#bc8cff,color:#e6edf3
+  classDef finalNode fill:#2d1f3d,stroke:#d29922,color:#d29922
+
+  class S1_done doneNode
+  class S1_M1,S1_M2,S1_M3 s1Node
+  class S2_M1,S2_M2,S2_M3,S2_M4 s2Node
+  class S2_M5,S2_M6 finalNode
+      </pre>
+    </div>
+  </div>
+</section>
+
+<footer style="padding: 32px; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
+  Carbon Engine Open-Source Plan · Generated April 2026
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+      curve: 'basis'
+    }
+  });
+</script>
+
+</body>
+</html>
