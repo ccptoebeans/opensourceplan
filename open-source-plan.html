@@ -378,6 +378,29 @@
     color: var(--border);
   }
 
+  .team-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 12px;
+  }
+  .team-divider::before,
+  .team-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .team-divider span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
   /* ─── Milestone Breakdown ─── */
   .stream-section {
     border-top: 3px solid var(--border);
@@ -499,6 +522,7 @@
       <div class="legend-item"><div class="status-dot todo"></div> Not Started</div>
     </div>
 
+    <div class="team-divider" style="margin-top:0;"><span>Team Core Components</span></div>
     <div class="status-grid">
       <div class="status-card"><div class="status-dot done"></div><span class="name">Core</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
       <div class="status-card"><div class="status-dot done"></div><span class="name">Scheduler</span><div class="badges"><span class="badge b">vcpkg</span><span class="badge g">open</span></div></div>
@@ -518,6 +542,9 @@
       <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">PDM</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
       <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">Prometheus</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
       <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">GRPC</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
+    </div>
+    <div class="team-divider"><span>Team Engine Components</span></div>
+    <div class="status-grid">
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Trinity</span><div class="badges"></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Audio</span><div class="badges"></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Parser</span><div class="badges"></div></div>
