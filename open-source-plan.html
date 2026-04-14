@@ -392,11 +392,9 @@
 <!-- ════════════════ COMPONENT STATUS ════════════════ -->
 <section>
   <div class="container">
-    <p class="section-label">Component Status</p>
-    <h2 class="section-title">All Carbon Components</h2>
-    <p class="section-desc">Current status of every component across the two-step process.</p>
+    <p class="section-label">All Carbon Components Status</p>
 
-    <div class="stats-inline">
+    <!-- <div class="stats-inline">
       <span class="stat-inline"><strong style="color:var(--green)">4</strong> Open-Sourced</span>
       <span class="stat-sep">·</span>
       <span class="stat-inline"><strong style="color:var(--blue)">13</strong> VCPKG'd</span>
@@ -404,7 +402,7 @@
       <span class="stat-inline"><strong style="color:var(--orange)">6</strong> Need Conversion</span>
       <span class="stat-sep">·</span>
       <span class="stat-inline"><strong>23</strong> Total</span>
-    </div>
+    </div> -->
 
     <div class="legend">
       <div class="legend-item"><div class="status-dot done"></div> Open-Sourced (Steps 1 &amp; 2)</div>
@@ -443,9 +441,7 @@
 <!-- ════════════════ DEPENDENCY GRAPH ════════════════ -->
 <section>
   <div class="container">
-    <p class="section-label">Dependencies</p>
-    <h2 class="section-title">Component Dependency Graph</h2>
-    <p class="section-desc">How each milestone group depends on the others. Components are listed within each group; arrows show which milestones must complete first.</p>
+    <p class="section-label">Project Plan</p>
 
     <div class="mermaid-wrapper">
       <pre class="mermaid">
@@ -474,8 +470,8 @@ graph LR
     s2m4 --> s2m6
   end
 
-  m3 -.->|"Carbon deps\npublished"| s2m5
-  m3 -.->|"Carbon deps\npublished"| s2m6
+  m3 -.->|"Carbon deps\nopensourced"| s2m5
+  m3 -.->|"Carbon deps\nopensourced"| s2m6
 
   classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
   classDef s1Style fill:#172540,stroke:#58a6ff,color:#e6edf3
