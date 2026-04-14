@@ -412,8 +412,8 @@
     <div class="stats">
       <div class="stat-card"><div class="num">4</div><div class="label">Fully Open-Sourced</div></div>
       <div class="stat-card"><div class="num">13</div><div class="label">VCPKG'd — Ready to Publish</div></div>
-      <div class="stat-card"><div class="num">2</div><div class="label">Need VCPKG Conversion</div></div>
-      <div class="stat-card"><div class="num">19</div><div class="label">Total Components</div></div>
+      <div class="stat-card"><div class="num">6</div><div class="label">Need VCPKG Conversion</div></div>
+      <div class="stat-card"><div class="num">23</div><div class="label">Total Components</div></div>
     </div>
 
     <div class="process-steps">
@@ -465,6 +465,10 @@
       <div class="status-card"><div class="status-dot vcpkg"></div><span class="name">GRPC</span><div class="badges"><span class="badge b">vcpkg</span></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Trinity</span><div class="badges"></div></div>
       <div class="status-card"><div class="status-dot todo"></div><span class="name">Audio</span><div class="badges"></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">Parser</span><div class="badges"></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">Spacemouse</span><div class="badges"></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">Videoplayer</span><div class="badges"></div></div>
+      <div class="status-card"><div class="status-dot todo"></div><span class="name">ImageIO</span><div class="badges"></div></div>
     </div>
   </div>
 </section>
@@ -474,7 +478,7 @@
   <div class="container">
     <p class="section-label">Execution Plan</p>
     <h2 class="section-title">Two Parallel Workstreams</h2>
-    <p class="section-desc">Stream 1 focuses on open-sourcing the 13 components already using VCPKG, ordered by dependency. Stream 2 tackles the VCPKG conversion of Trinity and Audio — the two remaining holdouts.</p>
+    <p class="section-desc">Stream 1 focuses on open-sourcing the 13 components already using VCPKG, ordered by dependency. Stream 2 tackles the VCPKG conversion of the 6 remaining components — Trinity, Audio, Parser, ImageIO, Spacemouse, and Videoplayer.</p>
 
     <div class="streams">
       <!-- ── Stream 1 ── -->
@@ -550,8 +554,8 @@
       <div class="stream">
         <div class="stream-header">
           <span class="stream-tag">Stream 2</span>
-          <h3>Convert Trinity &amp; Audio to VCPKG</h3>
-          <p>Refactor build systems to source all dependencies through VCPKG</p>
+          <h3>Convert Remaining Components to VCPKG</h3>
+          <p>Refactor build systems for Trinity, Audio, Parser, ImageIO, Spacemouse &amp; Videoplayer to source all dependencies through VCPKG</p>
         </div>
 
         <div class="milestone">
@@ -560,10 +564,14 @@
             <div class="milestone-label">Milestone 1</div>
             <div class="milestone-title">All Trinity's Dependencies Available via VCPKG</div>
             <div class="milestone-components">
-              <span class="chip">Audit dependencies</span>
+              <span class="chip">Parser → VCPKG</span>
+              <span class="chip">ImageIO → VCPKG</span>
+              <span class="chip">Spacemouse → VCPKG</span>
+              <span class="chip">Videoplayer → VCPKG</span>
+              <span class="chip">Audit third-party deps</span>
               <span class="chip">Add custom ports</span>
             </div>
-            <div class="milestone-note">Many Carbon deps already have VCPKG ports — third-party and internal deps (ShaderCompiler, TrinityAL, etc.) need custom ports or refactoring</div>
+            <div class="milestone-note">Parser, ImageIO, Spacemouse &amp; Videoplayer all need VCPKG conversion and open-sourcing. Parser &amp; ImageIO are Trinity deps. Third-party and internal deps (ShaderCompiler, TrinityAL, etc.) also need custom ports or refactoring.</div>
           </div>
         </div>
 
@@ -612,7 +620,7 @@
             <div class="milestone-components">
               <span class="chip">Publish to carbonengine</span>
             </div>
-            <div class="milestone-note">Blocked on: Stream 2 M2 + Stream 1 open-sourcing Trinity's Carbon deps</div>
+            <div class="milestone-note">Blocked on: Stream 2 M2 + Stream 1 open-sourcing Trinity's Carbon deps (incl. Parser &amp; ImageIO)</div>
           </div>
         </div>
 
@@ -627,12 +635,13 @@
             <div class="milestone-note">Blocked on: Stream 2 M4 + Stream 1 open-sourcing Audio's Carbon deps</div>
           </div>
         </div>
+
       </div>
     </div>
 
     <div class="callout">
       <h4>Cross-Stream Dependencies</h4>
-      <p>Stream 2's final milestones (open-sourcing Trinity &amp; Audio) are blocked on Stream 1 progress — their Carbon dependencies (e.g. Blue, Core, Scheduler) must be published to <strong>carbonengine</strong> first. The VCPKG conversion work (S2 M1–M4) can proceed fully in parallel with Stream 1.</p>
+      <p>Stream 2's open-sourcing milestones (M5–M6) are blocked on Stream 1 progress — their Carbon dependencies (e.g. Blue, Core, Scheduler) must be published to <strong>carbonengine</strong> first. The VCPKG conversion work (S2 M1–M4) can proceed fully in parallel with Stream 1. Parser, ImageIO, Spacemouse &amp; Videoplayer are all converted to VCPKG and open-sourced as part of M1.</p>
     </div>
   </div>
 </section>
@@ -681,10 +690,14 @@ graph LR
     grpc["GRPC"]
   end
 
-  subgraph s2 ["Stream 2 — VCPKG Conversion"]
+  subgraph s2 ["Stream 2 — Needs VCPKG Conversion"]
     direction TB
     trinity["Trinity"]
     audio["Audio"]
+    parser["Parser"]
+    imageio["ImageIO"]
+    spacemouse["Spacemouse"]
+    videoplayer["Videoplayer"]
   end
 
   scheduler --> core
@@ -712,6 +725,8 @@ graph LR
   pathfinder --> core
   grpc --> prometheus
   trinity -.-> blue
+  trinity -.-> parser
+  trinity -.-> imageio
   audio -.-> blue
 
   classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
@@ -724,37 +739,8 @@ graph LR
   class pdm,blueexp,pdmpw m1Style
   class blue,exefile,exeinterp m2Style
   class db,destiny,geo2,local,pathfinder,prometheus,grpc m3Style
-  class trinity,audio s2Style
+  class trinity,audio,parser,imageio,spacemouse,videoplayer s2Style
       </pre>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════ TRINITY COMPLEXITY ════════════════ -->
-<section>
-  <div class="container">
-    <p class="section-label">Stream 2 Deep Dive</p>
-    <h2 class="section-title">The Trinity Challenge</h2>
-    <p class="section-desc">Trinity is the rendering engine at the heart of Carbon. Converting it to VCPKG is the most complex task in the plan — here's why.</p>
-
-    <div class="trinity-section">
-      <div class="trinity-text">
-        <h4>Why Trinity is the hardest component to convert</h4>
-        <p>Trinity has a large and complex dependency tree spanning Carbon components, third-party libraries, platform SDKs, and internal sub-components.</p>
-        <ul>
-          <li><strong>Carbon dependencies</strong> — Blue, CcpMath, CcpParser, and others that already have VCPKG ports</li>
-          <li><strong>Third-party libraries</strong> — Freetype, VMA, libSquish, PNG, re2c, Lemon, GTest, and more</li>
-          <li><strong>Platform SDKs</strong> — Metal, MetalFX, Direct3D 11/12, DXGI, IOKit, Cocoa, CoreFoundation</li>
-          <li><strong>Vendor integrations</strong> — NVIDIA (Aftermath, DLSS, NIS, Reflex, Streamline), AMD (FidelityFX, FSR, CAS, CACAO), Intel (XeSS, TBB)</li>
-          <li><strong>Internal sub-components</strong> — ShaderCompiler, TrinityAL (dx11/dx12/metal/stub), CarbonTrinityAudioAPI — all live within the Trinity repo</li>
-          <li><strong>Platform-specific backends</strong> — dx11, dx12, metal, and stub variants that each pull different dependency subsets</li>
-        </ul>
-        <p style="margin-top: 16px;">Each non-VCPKG dependency needs to be audited: some exist in public VCPKG, some need custom ports in the Carbon registry, and some (platform SDKs) are system-provided.</p>
-      </div>
-      <div class="trinity-image-wrapper">
-        <img src="assets/trinity-dependencies.png" alt="Trinity dependency graph showing the complex web of internal and external dependencies">
-        <div class="trinity-image-caption">Trinity's full dependency tree — Carbon components, third-party libraries, platform APIs, and vendor SDKs</div>
-      </div>
     </div>
   </div>
 </section>
@@ -772,14 +758,14 @@ graph LR
 graph LR
   subgraph S1 ["Stream 1 — Open-Source"]
     direction LR
-    S1_done["✓ Foundation\nCore · Scheduler\nIO · Math"] --> S1_M1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper · Exefile\nExefile Interpreter"]
-    S1_M1 --> S1_M2["M2: Blue + Game Loop\nBlue"]
+    S1_done["✓ Foundation\nCore · Scheduler\nIO · Math"] --> S1_M1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
+    S1_M1 --> S1_M2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
     S1_M2 --> S1_M3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
   end
 
   subgraph S2 ["Stream 2 — VCPKG Conversion"]
     direction LR
-    S2_M1["M1: Trinity Deps\nin VCPKG"] --> S2_M2["M2: Trinity\nBuilds via VCPKG"]
+    S2_M1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · Videoplayer\n+ Trinity third-party deps"] --> S2_M2["M2: Trinity\nBuilds via VCPKG"]
     S2_M3["M3: Audio Deps\nin VCPKG"] --> S2_M4["M4: Audio\nBuilds via VCPKG"]
   end
 
