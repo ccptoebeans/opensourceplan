@@ -447,6 +447,17 @@
   .comp-dot.ready { background: var(--blue); }
   .comp-dot.todo { background: var(--orange); }
   .ms-card .comp-list li.done-item { color: var(--text-muted); text-decoration: line-through; }
+  .workflow-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 28px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .workflow-heading:first-of-type {
+    margin-top: 0;
+  }
   .ms-card-note {
     margin-top: 12px;
     padding-top: 10px;
@@ -516,55 +527,6 @@
   </div>
 </section>
 
-<!-- ════════════════ DEPENDENCY GRAPH ════════════════ -->
-<section>
-  <div class="container">
-    <p class="section-label">Project Plan</p>
-
-    <div class="mermaid-wrapper">
-      <pre class="mermaid">
-%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '13px' }}}%%
-graph LR
-  subgraph S1 ["Stream 1 — Open-Source Components"]
-    direction LR
-    done["✓ Open-Sourced\nCore · Scheduler\nIO · Math"]
-    m1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
-    m2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
-    m3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
-    done --> m1 --> m2 --> m3
-  end
-
-  subgraph S2 ["Stream 2 — VCPKG Conversion &amp; Open-Source"]
-    direction LR
-    s2m1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · Videoplayer"]
-    s2m2["M2: Trinity\nBuilds via VCPKG"]
-    s2m3["M3: Audio Deps\nin VCPKG"]
-    s2m4["M4: Audio\nBuilds via VCPKG"]
-    s2m5["M5: Trinity\nOpen-Sourced"]
-    s2m6["M6: Audio\nOpen-Sourced"]
-    s2m1 --> s2m2
-    s2m3 --> s2m4
-    s2m2 --> s2m5
-    s2m4 --> s2m6
-  end
-
-  m3 -.->|"Carbon deps\nopensourced"| s2m5
-  m3 -.->|"Carbon deps\nopensourced"| s2m6
-
-  classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
-  classDef s1Style fill:#172540,stroke:#58a6ff,color:#e6edf3
-  classDef s2Style fill:#2d1f3d,stroke:#bc8cff,color:#e6edf3
-  classDef finalStyle fill:#2d1f3d,stroke:#d29922,color:#d29922
-
-  class done doneStyle
-  class m1,m2,m3 s1Style
-  class s2m1,s2m2,s2m3,s2m4 s2Style
-  class s2m5,s2m6 finalStyle
-      </pre>
-    </div>
-  </div>
-</section>
-
 <!-- ════════════════ STREAM 1 ════════════════ -->
 <section class="stream-section s1">
   <div class="container">
@@ -629,6 +591,7 @@ graph LR
     <span class="stream-badge s2">Stream 2</span>
     <h2 class="section-title">Convert &amp; Open-Source Remaining Components</h2>
 
+    <h3 class="workflow-heading">Trinity Workflow</h3>
     <div class="milestone-grid">
       <div class="ms-card">
         <div class="ms-card-label">Milestone 1</div>
@@ -651,6 +614,18 @@ graph LR
       </div>
 
       <div class="ms-card">
+        <div class="ms-card-label">Milestone 5</div>
+        <div class="ms-card-title">Trinity Open-Sourced</div>
+        <ul class="comp-list">
+          <li><span class="comp-dot todo"></span>Trinity → carbonengine</li>
+        </ul>
+        <div class="ms-card-note">Blocked on S2 M2 + S1 completing</div>
+      </div>
+    </div>
+
+    <h3 class="workflow-heading">Audio Workflow</h3>
+    <div class="milestone-grid">
+      <div class="ms-card">
         <div class="ms-card-label">Milestone 3</div>
         <div class="ms-card-title">Audio Deps in VCPKG</div>
         <ul class="comp-list">
@@ -669,15 +644,6 @@ graph LR
       </div>
 
       <div class="ms-card">
-        <div class="ms-card-label">Milestone 5</div>
-        <div class="ms-card-title">Trinity Open-Sourced</div>
-        <ul class="comp-list">
-          <li><span class="comp-dot todo"></span>Trinity → carbonengine</li>
-        </ul>
-        <div class="ms-card-note">Blocked on S2 M2 + S1 completing</div>
-      </div>
-
-      <div class="ms-card">
         <div class="ms-card-label">Milestone 6</div>
         <div class="ms-card-title">Audio Open-Sourced</div>
         <ul class="comp-list">
@@ -685,6 +651,55 @@ graph LR
         </ul>
         <div class="ms-card-note">Blocked on S2 M4 + S1 completing</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROJECT PLAN ════════════════ -->
+<section>
+  <div class="container">
+    <p class="section-label">Project Plan</p>
+
+    <div class="mermaid-wrapper">
+      <pre class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '13px' }}}%%
+graph LR
+  subgraph S1 ["Stream 1 — Open-Source Components"]
+    direction LR
+    done["✓ Open-Sourced\nCore · Scheduler\nIO · Math"]
+    m1["M1: Blue's Deps\nPDM · Blueexposure\nPDM Proto Wrapper"]
+    m2["M2: Blue + Game Loop\nBlue · Exefile\nExefile Interpreter"]
+    m3["M3: All Remaining\nDB · Destiny · Geo2\nLocalization · Pathfinder\nPrometheus · GRPC"]
+    done --> m1 --> m2 --> m3
+  end
+
+  subgraph S2 ["Stream 2 — VCPKG Conversion &amp; Open-Source"]
+    direction LR
+    s2m1["M1: VCPKG + Open-Source\nParser · ImageIO\nSpacemouse · Videoplayer"]
+    s2m2["M2: Trinity\nBuilds via VCPKG"]
+    s2m3["M3: Audio Deps\nin VCPKG"]
+    s2m4["M4: Audio\nBuilds via VCPKG"]
+    s2m5["M5: Trinity\nOpen-Sourced"]
+    s2m6["M6: Audio\nOpen-Sourced"]
+    s2m1 --> s2m2
+    s2m3 --> s2m4
+    s2m2 --> s2m5
+    s2m4 --> s2m6
+  end
+
+  m3 -.->|"Carbon deps\nopensourced"| s2m5
+  m3 -.->|"Carbon deps\nopensourced"| s2m6
+
+  classDef doneStyle fill:#1a3a2a,stroke:#3fb950,color:#3fb950
+  classDef s1Style fill:#172540,stroke:#58a6ff,color:#e6edf3
+  classDef s2Style fill:#2d1f3d,stroke:#bc8cff,color:#e6edf3
+  classDef finalStyle fill:#2d1f3d,stroke:#d29922,color:#d29922
+
+  class done doneStyle
+  class m1,m2,m3 s1Style
+  class s2m1,s2m2,s2m3,s2m4 s2Style
+  class s2m5,s2m6 finalStyle
+      </pre>
     </div>
   </div>
 </section>
